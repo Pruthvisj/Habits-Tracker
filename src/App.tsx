@@ -1,12 +1,17 @@
+import { Container, Typography } from '@mui/material'
 import { Provider } from 'react-redux'
 import './App.css'
+import AddHabitForm from './components/add-habit-form'
 import store from './store/store'
 
 function App() {
 
   return (
     <Provider store={store}>
-      <div>hiiii we are creating habit app</div>
+      <Container maxWidth="md">
+        <Typography component="h1" variant='h2' align='center'> Habit Tracket </Typography>
+        <AddHabitForm/>
+      </Container>
     </Provider>
   )
 }
