@@ -1,4 +1,4 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 export interface Habit{
     id: string;
@@ -10,11 +10,38 @@ export interface Habit{
 
 interface HabitState {
     habits : Habit[];
+    isLoading:boolean;
+    error:null | string;
 }
 
+//state
 const initialState: HabitState = {
     habits:[],
+    isLoading:false,
+    error:null,
 };
+
+export const fetchHabits = createAsyncThunk("habits/fetchHabits", async ()=> {
+    await new Promise ((resolve) => setTimeout(resolve, 1000))
+
+    const mockHabits: Habit[] = [
+        {
+            id: "1",
+            name: "Read",
+            frequency: "daily",
+            completedDates: [], 
+            createdAt: new Date().toISOString()
+        },
+        {
+            id: "2",
+            name: "Create video",
+            frequency: "daily",
+            completedDates: [],
+            createdAt: new Date().toISOString()
+        },
+    ];
+    return mockHabits;
+});
 
 const habitSlice = createSlice({
     name: "habits",
@@ -48,11 +75,27 @@ const habitSlice = createSlice({
         },
         removeHabit: (
             //here comes state and action with obj
-        ) => {
+            state, action: PayloadAction<string>) => {
             //logic
+            state.habits = state.habits.filter((habit) => habit.id !== action.payload)
         },
+    },
+    extraReducers:(builder)=> {
+        builder
+        .addCase(fetchHabits.pending,(state) => {
+            state.isLoading = true
+        })
+        .addCase(fetchHabits.fulfilled,(state, action) => {
+            state.isLoading = false;
+            state.habits = action.payload
+        })
+        .addCase(fetchHabits.rejected,(state,action) => {
+            state.isLoading = false;
+            state.error = action.error.message || "failed to fetch";
+        })
+
     },
 })
 
-export const {addHabit, toggleHabit} = habitSlice.actions;
+export const {addHabit, toggleHabit, removeHabit} = habitSlice.actions;
 export default habitSlice.reducer;
