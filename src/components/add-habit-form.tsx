@@ -7,7 +7,6 @@ import type { AppDispatch } from '../store/store';
 const AddHabitForm: React.FC = () => {
     const [name, SetName] = useState<string>("");
     const [frequency, setFrequency] = useState<"daily" | "weekly">("daily"); //by default it will be daily
-
     const dispatch = useDispatch<AppDispatch>();
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -19,19 +18,14 @@ const AddHabitForm: React.FC = () => {
     }
     return (
         <form onSubmit={handleSubmit}>
-            <Box
-                sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 2,
-
-                }}>
+            <Box sx={{display: "flex", flexDirection: "column", gap: 2 }}>
                 <TextField
                     label="Habit Name"
                     value={name}
                     onChange={(e) => SetName(e.target.value)}
                     placeholder='Enter habit name'
-                    fullWidth />
+                    fullWidth 
+                />
 
                 <FormControl fullWidth>
                     <InputLabel>Frequency</InputLabel>

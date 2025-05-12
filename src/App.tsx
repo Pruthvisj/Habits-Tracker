@@ -4,6 +4,7 @@ import './App.css'
 import AddHabitForm from './components/add-habit-form'
 import store from './store/store'
 import HabitList from './components/habit-list'
+import HabitStats from './components/habit-stats'
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
         <Typography component="h1" variant='h2' align='center'> Habit Tracket </Typography>
         <AddHabitForm/>
         <HabitList/>
+        <HabitStats/>
       </Container>
     </Provider>
   )
