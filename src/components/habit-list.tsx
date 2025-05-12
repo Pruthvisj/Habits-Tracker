@@ -3,7 +3,7 @@ import DeleteIcon from "@mui/icons-material/Delete"
 import { Box, Button, Grid, LinearProgress, Paper, Typography } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { toggleHabit, type Habit } from '../store/habit-slice'
+import { removeHabit, toggleHabit, type Habit } from '../store/habit-slice'
 import type { AppDispatch, RootState } from '../store/store'
 
 const HabitList: React.FC = () => {
@@ -11,6 +11,7 @@ const HabitList: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const today = new Date().toISOString().split("T")[0];
 
+    //track the habit streaks
     const getStreak = (habits:Habit) => {
         let streak = 0
         const currentDate = new Date();
@@ -54,6 +55,7 @@ const HabitList: React.FC = () => {
                 <Button
                   variant="outlined"
                   color="error"
+                  onClick={() => dispatch(removeHabit(habit.id))}
                   startIcon={<DeleteIcon />}
                 >
                   Remove
@@ -67,7 +69,7 @@ const HabitList: React.FC = () => {
             </Typography>
             <LinearProgress
               variant="determinate"
-              value={(getStreak(habit) / 30) * 100}
+              value={(getStreak(habit) / 30) * 100} //calculate with respect to the month
               sx={{ mt: 1 }}
             />
           </Box>
